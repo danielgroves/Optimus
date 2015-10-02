@@ -10,7 +10,7 @@ class Optimus
     response = Rack::Response.new
     response.write resource.body
     response['Content-Type'] = 'image/jpeg'
-    response.status = 200
+    response.status = resource.code
 
     response.finish
   end

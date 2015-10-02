@@ -11,6 +11,15 @@ describe Optimus do
   end
 
   describe '/' do
+    context 'given an invalid path' do
+      path = '/some/madeup/path/for/something.jpg'
+
+      it 'returns 404' do
+        get path
+        expect(last_response.not_found?).to be true
+      end
+    end
+
     context 'given a valid path' do
       path = '/assets/camera-roll/2015/09/solo/20150829-DSC_0382-HDR.jpg'
 
@@ -21,7 +30,7 @@ describe Optimus do
 
       it 'returns 200' do
         get path
-        expect last_response.ok?
+        expect(last_response.ok?).to be true
       end
 
       it 'has the correct content length' do
