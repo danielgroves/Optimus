@@ -5,7 +5,7 @@ class Optimus
   def call(env)
     request = Rack::Request.new env
 
-    resource = ResourceRequest.new().get request.path_info
+    resource = ResourceRequest.new.get request.path_info
 
     response = Rack::Response.new
     response.write resource.body

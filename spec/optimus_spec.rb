@@ -25,7 +25,7 @@ describe Optimus do
 
       it 'returns an image content type' do
         get path
-        expect(last_response.headers["Content-Type"]).to eql('image/jpeg')
+        expect(last_response.headers['Content-Type']).to eql('image/jpeg')
       end
 
       it 'returns 200' do
