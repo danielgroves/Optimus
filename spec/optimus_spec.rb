@@ -14,9 +14,9 @@ describe Optimus do
     context 'given a path' do
       path = '/fred/lemons/bitches'
 
-      it 'returns the path' do
+      it 'it returns an image content type' do
         get path
-        expect(last_response.body).to eql(path)
+        expect(last_response.headers["Content-Type"]).to eql('image/jpeg')
       end
 
       it 'returns 200' do
