@@ -1,3 +1,3 @@
-require "optimus"
+require 'optimus'
 
 run Optimus.new

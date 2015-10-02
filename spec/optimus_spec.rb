@@ -11,15 +11,15 @@ describe Optimus do
   end
 
   describe '/' do
-    context "given a path" do
+    context 'given a path' do
       path = '/fred/lemons/bitches'
 
-      it "returns the path" do
+      it 'returns the path' do
         get path
         expect(last_response.body).to eql(path)
       end
 
-      it "returns 200" do
+      it 'returns 200' do
         get path
         expect last_response.ok?
       end
