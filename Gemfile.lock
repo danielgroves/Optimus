@@ -12,6 +12,7 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     rainbow (2.0.0)
+    rmagick (2.15.4)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -39,6 +40,7 @@ PLATFORMS
 DEPENDENCIES
   rack (~> 1.6.0)
   rack-test (~> 0.6.3)
+  rmagick (~> 2.15.4)
   rspec (~> 3.3.0)
   rubocop (~> 0.34.2)
 
