@@ -11,10 +11,10 @@ describe Optimus do
   end
 
   describe '/' do
-    context 'given a path' do
-      path = '/fred/lemons/bitches'
+    context 'given a valid path' do
+      path = '/assets/camera-roll/2015/09/solo/20150829-DSC_0382-HDR.jpg'
 
-      it 'it returns an image content type' do
+      it 'returns an image content type' do
         get path
         expect(last_response.headers["Content-Type"]).to eql('image/jpeg')
       end
@@ -22,6 +22,11 @@ describe Optimus do
       it 'returns 200' do
         get path
         expect last_response.ok?
+      end
+
+      it 'has the correct content length' do
+        get path
+        expect(last_response.headers['Content-Length']).to eql '1082900'
       end
     end
   end
