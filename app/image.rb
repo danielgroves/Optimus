@@ -2,6 +2,8 @@ require 'rmagick'
 
 # Image Model
 class Image
+  attr_reader :modified
+
   def initialize(image_data)
     @image = Magick::Image.from_blob(image_data).first
     @modified = false
@@ -9,13 +11,9 @@ class Image
 
   def dimensions(settings)
     if (settings.key? :maintain_aspect) && (settings[:maintain_aspect] == true)
-      if settings.key? :width
-        multiplier = @image.rows.to_f / @image.columns.to_f
-        settings.store(:height, settings[:width] * multiplier)
-      elsif settings.key? :height
-        multiplier = @image.columns.to_f / @image.rows.to_f
-        settings.store(:width, settings[:height] * multiplier)
-      end
+      settings.store(:height, calculate_aspect(@image.rows, @image.columns, settings[:width])) if settings.key? :width
+
+      settings.store(:width, calculate_aspect(@image.columns, @image.rows, settings[:height])) if settings.key? :height
     end
 
     settings.store(:width, @image.columns) unless settings.key? :width
@@ -25,11 +23,13 @@ class Image
     @modified = true
   end
 
-  def modified
-    @modified
-  end
-
   def finish
     @image.to_blob
+  end
+
+  private
+
+  def calculate_aspect(original_primary, original_secondary, new_primary)
+    new_primary * (original_primary.to_f / original_secondary.to_f)
   end
 end
