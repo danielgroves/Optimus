@@ -43,7 +43,8 @@ describe Optimus do
     end
 
     context 'given a valid request, generate a thumbnail which' do
-      let(:path) { '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg' }
+      let(:width) { 500 }
+      let(:path) { "/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=#{width}" }
       before { get path }
 
       it 'returns 201' do
@@ -56,7 +57,7 @@ describe Optimus do
 
       it 'is 500 pixels wide' do
         image = Magick::Image.from_blob(last_response.body).first
-        expect(image.columns).to eql(500)
+        expect(image.columns).to eql(width)
       end
     end
   end
