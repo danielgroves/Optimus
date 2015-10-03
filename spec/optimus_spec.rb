@@ -46,6 +46,7 @@ describe Optimus do
       let(:width) { 500 }
       let(:path) { "/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=#{width}" }
       before { get path }
+      let(:image) { Magick::Image.from_blob(last_response.body).first }
 
       it 'returns 201' do
         expect(last_response.created?).to be true
@@ -56,8 +57,34 @@ describe Optimus do
       end
 
       it 'is 500 pixels wide' do
-        image = Magick::Image.from_blob(last_response.body).first
         expect(image.columns).to eql(width)
+      end
+
+      it 'maintained aspect ratio' do
+        expect(image.rows).to eql 332
+      end
+    end
+
+    context 'given a valid request, generate a thumbnail which' do
+      let(:width) { 500 }
+      let(:path) { "/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=#{width}&maintain_aspect=false" }
+      before { get path }
+      let(:image) { Magick::Image.from_blob(last_response.body).first }
+
+      it 'returns 201' do
+        expect(last_response.created?).to be true
+      end
+
+      it 'returns an image content type' do
+        expect(last_response.headers['Content-Type']).to eql 'image/jpeg'
+      end
+
+      it 'is 500 pixels wide' do
+        expect(image.columns).to eql(width)
+      end
+
+      it 'does not maintain its aspect ratio' do
+        expect(image.rows).to eql 1330
       end
     end
   end

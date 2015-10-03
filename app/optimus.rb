@@ -15,6 +15,7 @@ class Optimus
     remote_resource = ResourceRequest.new.get rack_request.path_info
 
     if remote_resource.code == '200'
+      rack_request.params.store('maintain_aspect', true) unless rack_request.params.key? 'maintain_aspect'
       response = process_image remote_resource.body, rack_request
     else
       response = Rack::Response.new
@@ -29,11 +30,14 @@ class Optimus
 
     if request.params.key?('width') && request.params.key?('height')
       image.dimensions width: request.params['width'].to_i,
-                       height: request.params['height'].to_i
+                       height: request.params['height'].to_i,
+                       maintain_aspect: request.params['maintain_aspect']
     elsif request.params.key? 'width'
-      image.dimensions width: request.params['width'].to_i
+      image.dimensions width: request.params['width'].to_i,
+                       maintain_aspect: request.params['maintain_aspect']
     elsif request.params.key? 'height'
-      image.dimensions height: request.params['height'].to_i
+      image.dimensions height: request.params['height'].to_i,
+                       maintain_aspect: request.params['maintain_aspect']
     end
 
     build_response image
