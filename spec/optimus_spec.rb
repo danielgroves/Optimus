@@ -35,7 +35,7 @@ describe Optimus do
 
       it 'has the correct content length' do
         get path
-        expect(last_response.headers['Content-Length']).to eql '1082900'
+        expect(last_response.headers['Content-Length']).to eql '1243339'
       end
     end
   end
