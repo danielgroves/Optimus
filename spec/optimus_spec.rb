@@ -12,30 +12,32 @@ describe Optimus do
 
   describe '/' do
     context 'given an invalid path' do
-      path = '/some/madeup/path/for/something.jpg'
+      let(:path) { '/some/madeup/path/for/something.jpg' }
+      before { get path }
 
       it 'returns 404' do
-        get path
         expect(last_response.not_found?).to be true
+      end
+
+      it 'returns an empty body' do
+        expect(last_response.body).to eql('')
       end
     end
 
     context 'given a valid path' do
-      path = '/assets/camera-roll/2015/09/solo/20150829-DSC_0382-HDR.jpg'
+      let(:path) { '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg' }
+      before { get path }
 
       it 'returns an image content type' do
-        get path
         expect(last_response.headers['Content-Type']).to eql('image/jpeg')
       end
 
       it 'returns 200' do
-        get path
         expect(last_response.ok?).to be true
       end
 
       it 'has the correct content length' do
-        get path
-        expect(last_response.headers['Content-Length']).to eql '1243339'
+        expect(last_response.headers['Content-Length']).to eql '834653'
       end
     end
   end
