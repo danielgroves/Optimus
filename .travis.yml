@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - "2.2.0"
+  - "2.2.1"
+
+before_install:
+  - sudo apt-get update -qq -y
+  - sudo apt-get install -y imagemagick --fix-missing -qq
+  - gem install bundler
+
+script:
+  - bundle install
+  - bundle exec rake test
