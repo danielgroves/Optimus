@@ -3,11 +3,10 @@ rvm:
   - "2.2.0"
   - "2.2.1"
 
-sudo: true
-
-before_install:
-  - sudo apt-get update -qq -y
-  - sudo apt-get install -y imagemagick --fix-missing -qq
+addons:
+  apt:
+    sources:
+    - imagemagick
 
 script:
   - bundle install
