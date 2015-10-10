@@ -9,5 +9,5 @@ addons:
     - imagemagick
 
 script:
-  - bundle install
-  - bundle exec rake test
+  - bundle exec rake lint
+  - bundle exec rake spec
