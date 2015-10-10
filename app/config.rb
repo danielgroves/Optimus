@@ -12,7 +12,8 @@ class Config
       limits: {
         width: 2500,
         height: 2500
-      }
+      },
+      sentry_dsn: nil
     }
 
     @data.merge! YAML.load(open(config)) if File.exist?(config)

@@ -38,5 +38,9 @@ describe Config do
     it 'have a maximum height int' do
       expect(configuration[:limits][:height].is_a? Integer).to be true
     end
+
+    it 'have a nil sentry dsn' do
+      expect(configuration[:sentry_dsn]).to be nil
+    end
   end
 end
