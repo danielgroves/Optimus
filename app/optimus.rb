@@ -5,7 +5,14 @@ require_relative 'image'
 class Optimus
   def call(env)
     request = Rack::Request.new env
-    response = process_request request
+
+    if request.path_info == '/'
+      response = Rack::Response.new
+      response.status = 404
+    else
+      response = process_request request
+    end
+
     response.finish
   end
 

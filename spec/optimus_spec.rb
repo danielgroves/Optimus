@@ -87,5 +87,18 @@ describe Optimus do
         expect(image.rows).to eql 1330
       end
     end
+
+    context 'given no path' do
+      let(:path) { '/' }
+      before { get path }
+
+      it 'returns 404' do
+        expect(last_response.not_found?).to be true
+      end
+
+      it 'has no body' do
+        expect(last_response.body).to eql ''
+      end
+    end
   end
 end
