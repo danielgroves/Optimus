@@ -9,3 +9,4 @@ gem 'rmagick', '~> 2.15.4'
 
 gem 'byebug', '6.0.2'
 gem 'rspec_boolean', '0.0.4'
+gem 'rubocop-rspec', '1.3.1'

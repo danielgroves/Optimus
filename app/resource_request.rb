@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'openssl'
 require_relative 'config'
 
 # Requests a remote resource

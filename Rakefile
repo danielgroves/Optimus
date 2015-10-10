@@ -1,8 +1,32 @@
-task :rack do
-  `bundle exec rackup app/config.ru`
-end
+#!/usr/bin/env rake
 
-task :test do
-  puts `rubocop`
-  puts `bundle exec rspec spec/`
+# begin
+#   require 'bundler/setup'
+# rescue LoadError
+#   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
+# end
+#
+# require 'bundler/gem_tasks'
+
+##
+# Configure the test suite.
+##
+require 'rspec/core'
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new
+
+##
+# RuboCop
+##
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new do |task|
+  task.requires << 'rubocop-rspec'
 end
+task lint: :rubocop
+
+##
+# By default, just run the tests.
+##
+task default: :spec

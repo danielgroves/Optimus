@@ -1,7 +1,7 @@
 ---
 :origin: https://danielgroves.net/
 :ssl:
-  :verify: false
+  :verify: true
   :use: true
 :limits:
   :width: 2500

@@ -8,7 +8,7 @@ describe Optimus do
   include Rack::Test::Methods
 
   def app
-    Optimus.new
+    described_class.new
   end
 
   describe '/' do

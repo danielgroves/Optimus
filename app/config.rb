@@ -3,7 +3,19 @@ require 'yaml'
 # Loads the configuration from YAML
 class Config
   def initialize(config = 'optimus.yml')
-    @data = YAML.load(open(config)) if File.exist?(config)
+    @data = {
+      origin: '',
+      ssl: {
+        verify: true,
+        use: true
+      },
+      limits: {
+        width: 2500,
+        height: 2500
+      }
+    }
+
+    @data.merge! YAML.load(open(config)) if File.exist?(config)
   end
 
   def [](key)

@@ -9,57 +9,55 @@ describe Image do
   let(:magick) { Magick::Image.read(path).first }
 
   context 'image loading' do
-    before { @image = Image.new File.open(path, 'rb').read }
+    let(:image) { described_class.new File.open(path, 'rb').read }
 
     it 'be the same as before' do
-      expect(@image.finish).to eql magick.to_blob
+      expect(image.finish).to eql magick.to_blob
     end
   end
 
   context 'dimensions' do
-    before { @image = Image.new File.open(path, 'rb').read }
+    let(:image) { described_class.new File.open(path, 'rb').read }
 
-    it 'should have an Integer width' do
-      expect(@image.width.is_a? Integer).to eql true
+    it 'have an Integer width' do
+      expect(image.width.is_a? Integer).to eql true
     end
 
-    it 'should have an Integer height' do
-      expect(@image.height.is_a? Integer).to eql true
+    it 'have an Integer height' do
+      expect(image.height.is_a? Integer).to eql true
     end
   end
 
   context 'resize image' do
-    before(:each) do
-      @image = Image.new File.open(path, 'rb').read
-    end
+    let!(:each) { described_class.new File.open(path, 'rb').read }
 
     let(:original_ratio) { calculate_ratio magick.rows, magick.columns }
 
     it 'is 500px wide' do
-      @image.dimensions width: 500
+      image.dimensions width: 500
 
-      verify_output = Magick::Image.from_blob(@image.finish).first
+      verify_output = Magick::Image.from_blob(image.finish).first
       expect(verify_output.columns).to eql 500
     end
 
     it 'is 700px high' do
-      @image.dimensions height: 700
+      image.dimensions height: 700
 
-      verify_output = Magick::Image.from_blob(@image.finish).first
+      verify_output = Magick::Image.from_blob(image.finish).first
       expect(verify_output.rows).to eql 700
     end
 
     it 'is 300 by 200' do
-      @image.dimensions width: 300, height: 200
+      image.dimensions width: 300, height: 200
 
-      verify_output = Magick::Image.from_blob(@image.finish).first
+      verify_output = Magick::Image.from_blob(image.finish).first
       expect(verify_output.columns).to eql 300
       expect(verify_output.rows).to eql 200
     end
 
     it 'is same aspect ratio after width change' do
-      @image.dimensions width: 400, maintain_aspect: true
-      complete_image = Magick::Image.from_blob(@image.finish).first
+      image.dimensions width: 400, maintain_aspect: true
+      complete_image = Magick::Image.from_blob(image.finish).first
       new_ratio = calculate_ratio complete_image.rows, complete_image.columns
 
       expect(new_ratio).to eql original_ratio
@@ -67,8 +65,8 @@ describe Image do
     end
 
     it 'is same aspect ratio after height change' do
-      @image.dimensions height: 300, maintain_aspect: true
-      complete_image = Magick::Image.from_blob(@image.finish).first
+      image.dimensions height: 300, maintain_aspect: true
+      complete_image = Magick::Image.from_blob(image.finish).first
       new_ratio = calculate_ratio complete_image.rows, complete_image.columns
 
       expect(new_ratio).to eql original_ratio
@@ -76,8 +74,8 @@ describe Image do
     end
 
     it 'is different aspect ratio after width change' do
-      @image.dimensions width: 300, maintain_aspect: false
-      complete_image = Magick::Image.from_blob(@image.finish).first
+      image.dimensions width: 300, maintain_aspect: false
+      complete_image = Magick::Image.from_blob(image.finish).first
       new_ratio = calculate_ratio complete_image.rows, complete_image.columns
 
       expect(new_ratio).to_not eql original_ratio
@@ -86,8 +84,8 @@ describe Image do
     end
 
     it 'is different aspect ratio after height change' do
-      @image.dimensions height: 300, maintain_aspect: false
-      complete_image = Magick::Image.from_blob(@image.finish).first
+      image.dimensions height: 300, maintain_aspect: false
+      complete_image = Magick::Image.from_blob(image.finish).first
       new_ratio = calculate_ratio complete_image.rows, complete_image.columns
 
       expect(new_ratio).to_not eql original_ratio
