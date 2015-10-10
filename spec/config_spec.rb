@@ -26,5 +26,17 @@ describe Config do
     it 'should have a ssl use boolean' do
       expect(@configuration[:ssl][:use]).to be_boolean
     end
+
+    it 'should have a limits hash' do
+      expect(@configuration[:limits].is_a? Hash).to be true
+    end
+
+    it 'should have a maximum width int' do
+      expect(@configuration[:limits][:width].is_a? Integer).to be true
+    end
+
+    it 'should have a maximum height int' do
+      expect(@configuration[:limits][:height].is_a? Integer).to be true
+    end
   end
 end

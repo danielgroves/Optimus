@@ -100,5 +100,23 @@ describe Optimus do
         expect(last_response.body).to eql ''
       end
     end
+
+    context 'the configured dimension limits are obayed' do
+      it 'is within the limits no parameters' do
+        get '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg'
+
+        image = Magick::Image.from_blob last_response.body
+        expect(image.columns <= 2500).to be true
+        expect(image.rows <= 2500).to be true
+      end
+
+      it 'is within the limits given width and height parameters' do
+        get '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=5000&height=5000&maintain_aspect=false'
+
+        image = Magick::Image.from_blob last_response.body
+        expect(image.columns <= 2500).to be true
+        expect(image.rows <= 2500).to be true
+      end
+    end
   end
 end
