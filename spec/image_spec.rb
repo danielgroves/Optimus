@@ -29,7 +29,7 @@ describe Image do
   end
 
   context 'resize image' do
-    let!(:each) { described_class.new File.open(path, 'rb').read }
+    let!(:image) { described_class.new File.open(path, 'rb').read }
 
     let(:original_ratio) { calculate_ratio magick.rows, magick.columns }
 
