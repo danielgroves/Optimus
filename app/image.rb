@@ -6,7 +6,6 @@ class Image
 
   def initialize(image_data)
     @image = Magick::Image.from_blob(image_data).first
-    @modified = false
   end
 
   def dimensions(settings)
@@ -20,11 +19,18 @@ class Image
     settings.store(:height, @image.rows) unless settings.key? :height
 
     @image = @image.resize(settings[:width], settings[:height])
-    @modified = true
   end
 
   def finish
     @image.to_blob
+  end
+
+  def width
+    @image.columns
+  end
+
+  def height
+    @image.rows
   end
 
   private

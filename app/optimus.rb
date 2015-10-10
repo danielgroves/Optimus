@@ -1,8 +1,13 @@
 require_relative 'resource_request'
 require_relative 'image'
+require_relative 'config'
 
 # Rack application for on-the-fly image optimisation.
 class Optimus
+  def initialize
+    @config = Config.new
+  end
+
   def call(env)
     request = Rack::Request.new env
 
@@ -35,17 +40,12 @@ class Optimus
   def process_image(image_data, request)
     image = Image.new image_data
 
-    if request.params.key?('width') && request.params.key?('height')
-      image.dimensions width: request.params['width'].to_i,
-                       height: request.params['height'].to_i,
-                       maintain_aspect: request.params['maintain_aspect']
-    elsif request.params.key? 'width'
-      image.dimensions width: request.params['width'].to_i,
-                       maintain_aspect: request.params['maintain_aspect']
-    elsif request.params.key? 'height'
-      image.dimensions height: request.params['height'].to_i,
-                       maintain_aspect: request.params['maintain_aspect']
-    end
+    width = smallest_value [image.width, request.params['width'], @config[:limits][:width]]
+    height = smallest_value [image.height, request.params['height'], @config[:limits][:height]]
+
+    image.dimensions width: width,
+                     height: height,
+                     maintain_aspect: request.params['maintain_aspect']
 
     build_response image
   end
@@ -53,9 +53,14 @@ class Optimus
   def build_response(image)
     response = Rack::Response.new
     response.write image.finish
-    response.status = image.modified ? 201 : 200
+    response.status = 201
     response['Content-Type'] = 'image/jpeg'
 
     response
+  end
+
+  def smallest_value(array)
+    # rubocop:disable Style/RescueModifier
+    array.map { |x| Integer(x) rescue nil }.compact.min
   end
 end

@@ -33,12 +33,8 @@ describe Optimus do
         expect(last_response.headers['Content-Type']).to eql('image/jpeg')
       end
 
-      it 'return 200' do
-        expect(last_response.ok?).to be true
-      end
-
-      it 'have the correct content length' do
-        expect(last_response.headers['Content-Length']).to eql '834653'
+      it 'return 201' do
+        expect(last_response.created?).to be true
       end
     end
 
@@ -105,7 +101,7 @@ describe Optimus do
       it 'is within the limits no parameters' do
         get '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg'
 
-        image = Magick::Image.from_blob last_response.body
+        image = Magick::Image.from_blob(last_response.body).first
         expect(image.columns <= 2500).to be true
         expect(image.rows <= 2500).to be true
       end
@@ -113,7 +109,7 @@ describe Optimus do
       it 'is within the limits given width and height parameters' do
         get '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=5000&height=5000&maintain_aspect=false'
 
-        image = Magick::Image.from_blob last_response.body
+        image = Magick::Image.from_blob(last_response.body).first
         expect(image.columns <= 2500).to be true
         expect(image.rows <= 2500).to be true
       end

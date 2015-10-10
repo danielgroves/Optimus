@@ -16,6 +16,18 @@ describe Image do
     end
   end
 
+  context 'dimensions' do
+    before { @image = Image.new File.open(path, 'rb').read }
+
+    it 'should have an Integer width' do
+      expect(@image.width.is_a? Integer).to eql true
+    end
+
+    it 'should have an Integer height' do
+      expect(@image.height.is_a? Integer).to eql true
+    end
+  end
+
   context 'resize image' do
     before(:each) do
       @image = Image.new File.open(path, 'rb').read
