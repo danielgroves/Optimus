@@ -2,9 +2,8 @@ require 'yaml'
 
 # Loads the configuration from YAML
 class Config
-  def initialize
-    file_name = 'optimus.yml'
-    @data = YAML.load(open(file_name)) if File.exist?(file_name)
+  def initialize(config = 'optimus.yml')
+    @data = YAML.load(open(config)) if File.exist?(config)
   end
 
   def [](key)

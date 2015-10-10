@@ -1,5 +1,5 @@
 ---
 :origin: https://danielgroves.net/
 :ssl:
-  :verify: true
+  :verify: false
   :use: true
