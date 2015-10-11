@@ -3,7 +3,7 @@ require_relative 'config'
 
 configuration = Config.new
 
-if (configuration[:sentry][:dsn] != nil)
+if (configuration[:sentry][:dsn].nil?)
   require 'raven'
 
   Raven.configure do |config|
