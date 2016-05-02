@@ -26,7 +26,7 @@ describe Optimus do
     end
 
     context 'given a valid path' do
-      let(:path) { '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg' }
+      let(:path) { '/assets/me.jpg' }
       before { get path }
 
       it 'return an image content type' do
@@ -39,8 +39,8 @@ describe Optimus do
     end
 
     context 'given a valid request, generate a thumbnail which' do
-      let(:width) { 500 }
-      let(:path) { "/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=#{width}" }
+      let(:width) { 200 }
+      let(:path) { "/assets/me.jpg?width=#{width}" }
       before { get path }
       let(:image) { Magick::Image.from_blob(last_response.body).first }
 
@@ -52,18 +52,18 @@ describe Optimus do
         expect(last_response.headers['Content-Type']).to eql 'image/jpeg'
       end
 
-      it 'is 500 pixels wide' do
+      it 'is 200 pixels wide' do
         expect(image.columns).to eql(width)
       end
 
       it 'maintained aspect ratio' do
-        expect(image.rows).to eql 332
+        expect(image.rows).to eql 200
       end
     end
 
     context 'given a valid request, generate a thumbnail which' do
-      let(:width) { 500 }
-      let(:path) { "/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=#{width}&maintain_aspect=false" }
+      let(:width) { 200 }
+      let(:path) { "/assets/me.jpg?width=#{width}&maintain_aspect=false" }
       before { get path }
       let(:image) { Magick::Image.from_blob(last_response.body).first }
 
@@ -75,12 +75,12 @@ describe Optimus do
         expect(last_response.headers['Content-Type']).to eql 'image/jpeg'
       end
 
-      it 'is 500 pixels wide' do
+      it 'is 200 pixels wide' do
         expect(image.columns).to eql(width)
       end
 
       it 'does not maintain its aspect ratio' do
-        expect(image.rows).to eql 1330
+        expect(image.rows).to eql 1136
       end
     end
 
@@ -99,7 +99,7 @@ describe Optimus do
 
     context 'the configured dimension limits are obayed' do
       it 'is within the limits no parameters' do
-        get '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg'
+        get '/assets/me.jpg'
 
         image = Magick::Image.from_blob(last_response.body).first
         expect(image.columns <= 2500).to be true
@@ -107,7 +107,7 @@ describe Optimus do
       end
 
       it 'is within the limits given width and height parameters' do
-        get '/assets/camera-roll/2015/09/soar/20150926-DSC_0827.jpg?width=5000&height=5000&maintain_aspect=false'
+        get '/assets/me.jpg?width=5000&height=5000&maintain_aspect=false'
 
         image = Magick::Image.from_blob(last_response.body).first
         expect(image.columns <= 2500).to be true
