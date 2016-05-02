@@ -4,7 +4,7 @@ require 'yaml'
 class Config
   def initialize(config = 'optimus.yml')
     @data = {
-      origin: '',
+      origin: 'https://danielgroves.net',
       ssl: {
         verify: true,
         use: true
