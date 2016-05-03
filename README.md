@@ -2,7 +2,7 @@
 
 On the fly image optimisation experiment
 
-[![Build Status](https://magnum.travis-ci.com/danielgroves/Optimus.svg?token=4WAX7ZyubP4HC9xzhvPn&branch=master)](https://magnum.travis-ci.com/danielgroves/Optimus)
+[![Build Status](https://travis-ci.org/danielgroves/Optimus.svg?branch=master)](https://travis-ci.org/danielgroves/Optimus)
 
 Optimus was written as a wrapper for ImageMagick to experiment with generating image renders on-the-fly. I concluded this not to be performent enough for my use case, [documented my approaches on my website](https://danielgroves.net/development/2016/05/responsive-images/) afterwards. 
 
